@@ -23,6 +23,7 @@ app.set('view engine', 'ejs');
 // database connection
 // const dbURI = process.env.MONGODB_URI || 'mongodb+srv://admin:admin1234@coledb.mxcgovr.mongodb.net/?retryWrites=true&w=majority'
 const dbURI = process.env.MONGODB_URI;
+mongoose.set("strictQuery", false);
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
   .then((result) => app.listen(3000))
   .catch((err) => console.log(err));
