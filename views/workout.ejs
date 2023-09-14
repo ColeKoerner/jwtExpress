@@ -1,0 +1,84 @@
+<%- include('partials/header'); -%>
+<link rel="stylesheet" href="/workout.css">
+</head>
+<body>
+<nav>
+  <h1><a href="/">Workout Generator</a></h1>
+  <ul>
+    <% if (user) { %>
+      <li>Welcome, <%= user.email %></li>
+      <li><a href="/logout">Log out</a></li>
+    <% } else { %>
+      <li><a href="/login">Log in</a></li>
+      <li><a href="/signup" class="btn">Sign up</a></li>
+    <% } %>
+  </ul>
+</nav>
+<% if (data) { %>
+
+  <iframe class="responsive-iframe" id="video" src="<%= data.video %>"
+  title="YouTube video player" frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  allowfullscreen></iframe>
+<table id="workoutTable">
+  <tr>
+      <th></th>
+      <th>Exercise</th>
+      <th>Suggested Weight</th>
+      <th>Weight</th>
+  </tr>
+  <% if (data.workouts.length> 0){ %>
+    <% data.workouts.forEach(workout=> { %>
+        <tr>
+          <td><%= workout.columnId %></td>
+          <td>
+            <% let workoutSelection = (workout.type == 'core') ? data.selectedWorkout.core : data.selectedWorkout.superset %>
+              <select>
+                <% for (let i = 0; i < workoutSelection.length; i++) {%>
+                  <% if (workout.workoutName == workoutSelection[i]) { %>
+                    <option value="<%= workout.workoutName %>" selected><%= workout.workoutName %></option>
+                  <% } else { %>
+                    <option value="<%= workoutSelection[i] %>" ><%= workoutSelection[i] %></option>
+                  <% } %>
+                <% } %>
+              </select>
+          </td>
+          <td>Coming Soon...</td>
+          <td><Input type="text"></Input></td>
+      </tr>
+    <% }) %>
+  <% } else { %>
+      <p>Something went wrong...</p>
+  <% } %>
+</table>
+<% } else { %>
+  <h2 class="question">What are we doing today?</h2>
+  <form action="/workout" method="POST">
+    <div class="selection">
+        <select name="workout" id="workout">
+            <option value="" disabled selected>--Workout--</option>
+            <option value="arms">Arms</option>
+            <option value="back">Back</option>
+            <option value="chest">Chest</option>
+            <option value="legs">Legs</option>
+            <option value="shoulders">Shoulders</option>
+        </select>
+        <select name="sets" id="sets">
+            <option value="" disabled selected>--Sets--</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+        <p>
+            SuperSet?
+        </p>
+        <input id="superset" name="superset" type="checkbox" />
+        <button>Generate</button>
+    
+        
+    </div>
+  </form>
+<% } %>
+<%- include('partials/footer'); -%>

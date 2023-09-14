@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const authRoutes = require('./routes/authRoutes');
 const { requireAuth, checkUser } = require('./middleware/authMiddleware');
 const cookieParser = require('cookie-parser');
-const cron = require('node-cron')
+const cron = require('node-cron');
+const workoutController = require('./controllers/workoutController');
 
 
 const app = express();
@@ -11,6 +12,7 @@ const app = express();
 // middleware
 app.use(express.static('public'));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // cookies
 app.use(cookieParser());
@@ -19,15 +21,20 @@ app.use(cookieParser());
 app.set('view engine', 'ejs');
 
 // database connection
-const dbURI = 'mongodb+srv://admin:admin1234@coledb.mxcgovr.mongodb.net/?retryWrites=true&w=majority';
+const dbURI = process.env.MONGODB_URI || 'mongodb+srv://admin:admin1234@coledb.mxcgovr.mongodb.net/?retryWrites=true&w=majority';
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
   .then((result) => app.listen(3000))
   .catch((err) => console.log(err));
 
 // routes
 app.get('*', checkUser);
-app.get('/', requireAuth, (req, res) => res.render('home'));
-app.get('/smoothies', requireAuth, (req, res) => res.render('smoothies'));
+app.get('/', requireAuth, (req, res) => res.render('workout', { title: 'Home', data: null }));
+app.get('/workout/:workout/:sets', requireAuth, (req, res) => {
+  let data = workoutController.workoutdata(req.params.workout, req.params.sets);
+  console.log(data);
+  res.render('workout', { title: 'Workout', data })
+});
+app.post('/workout', (req, res) => res.redirect(`workout/${req.body.workout}/${req.body.sets}`,));
 app.use(authRoutes);
 
 
