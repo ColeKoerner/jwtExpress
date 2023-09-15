@@ -61,4 +61,4 @@ app.get('/read-cookies', (req, res) => {
 
 });
 
-export const handler = serverless(app);
+modules.exports.handler = serverless(app);
