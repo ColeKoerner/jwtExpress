@@ -61,4 +61,4 @@ app.get('/read-cookies', (req, res) => {
 
 });
 
-modules.exports.handler = serverless(app);
+module.exports.handler = serverless(app);
