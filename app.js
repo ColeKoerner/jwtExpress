@@ -21,7 +21,7 @@ app.use(cookieParser());
 app.set('view engine', 'ejs');
 
 // database connection
-const dbURI = 'mongodb+srv://admin:admin1234@coledb.mxcgovr.mongodb.net/?retryWrites=true&w=majority'
+const dbURI = process.env.DB_URI || 'mongodb+srv://admin:admin1234@coledb.mxcgovr.mongodb.net/?retryWrites=true&w=majority'
 
 mongoose.set("strictQuery", false);
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
