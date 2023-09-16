@@ -5,7 +5,6 @@ const { requireAuth, checkUser } = require('./middleware/authMiddleware');
 const cookieParser = require('cookie-parser');
 const cron = require('node-cron');
 const workoutController = require('./controllers/workoutController');
-const serverless = require('serverless-http');
 
 
 const app = express();
@@ -60,5 +59,3 @@ app.get('/read-cookies', (req, res) => {
   res.json(cookies);
 
 });
-
-module.exports.handler = serverless(app);
