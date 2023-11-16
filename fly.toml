@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for workoutgenerator on 2023-10-06T19:18:42-05:00
+# fly.toml app configuration file generated for letsworkout on 2023-10-13T22:03:26-05:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = "workoutgenerator"
+app = "letsworkout"
 primary_region = "den"
 
 [build]
