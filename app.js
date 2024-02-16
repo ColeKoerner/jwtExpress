@@ -26,7 +26,7 @@ const dbURI = process.env.DB_URI || 'mongodb+srv://admin:admin1234@coledb.mxcgov
 
 mongoose.set("strictQuery", false);
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
-  .then((result) => app.listen(3000))
+  .then((result) => app.listen(3000, '0.0.0.0'))
   .catch((err) => console.log(err));
 
 // routes
