@@ -5,6 +5,9 @@ const { requireAuth, checkUser } = require('./middleware/authMiddleware');
 const cookieParser = require('cookie-parser');
 const cron = require('node-cron');
 const workoutController = require('./controllers/workoutController');
+const WorkoutData = require('./models/Workout');
+const User = require('./models/User');
+const jwt = require('jsonwebtoken');
 // const serverless = require('serverless-http');
 
 
@@ -39,7 +42,38 @@ app.get('/workout/:workout/:sets/:superset', requireAuth, (req, res) => {
   console.log(data.selectedWorkout);
   res.render('workout', { title: 'Workout', data })
 });
+
 app.post('/workout', (req, res) => res.redirect(`workout/${req.body.workout}/${req.body.sets}/${req.body.superset}`,));
+app.post('/workoutData', (req, res, next) => {
+  const token = req.cookies.jwt;
+
+  if (token) {
+    jwt.verify(token, 'net ninja secret', async (err, decodedToken) => {
+        if (err) {
+            console.log(err.message);
+            res.locals.user = null;
+            next();
+        } else {
+            let data = await User.findById(decodedToken.id);
+            req.body.workout.forEach(async (workout, index) => {
+              // await WorkoutData.create({email: data.email, workout: workout, weight: req.body.weight[index]})
+              await WorkoutData.findOneAndUpdate(
+                { email: data.email, workout: workout }, 
+                { weight: req.body.weight[index] },
+                { upsert: true }
+              );
+            });
+        }
+    });
+  } else {
+      console.log('test');
+      res.locals.user = null;
+      next();
+  }
+  
+  res.status(200).json({ data: 'success'})
+});
+
 app.use(authRoutes);
 
 

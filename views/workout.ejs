@@ -21,6 +21,7 @@
   title="YouTube video player" frameborder="0"
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
   allowfullscreen></iframe>
+<form action="/workoutData" method="POST">
 <table id="workoutTable">
   <tr>
       <th></th>
@@ -33,7 +34,7 @@
         <tr>
           <td><%= data.setNums[i] %></td>
           <td>
-            <select>
+            <select id="workout" name="workout">
               <% let workout = (data.setNums[i][1] == 'a') ? data.selectedWorkout.core : data.selectedWorkout.superset %>
               <% for(let j = 0; j < workout.length; j++){ %>
                 <option value="<%= workout[j] %>" <%= (j == data.randomNums[i]) ? 'selected' : '' %>><%= workout[j] %></option>
@@ -41,7 +42,7 @@
             </select>
           </td>
           <td>Coming Soon...</td>
-          <td><Input type="text"></Input></td>
+          <td><Input id="weight" name="weight" type="text"></Input></td>
       </tr>
     <% } %>
   <% } else { %>
@@ -49,7 +50,7 @@
       <tr>
         <td><%= data.setNums[i] %></td>
         <td>
-          <select>
+          <select id="workout" name="workout">
             <% let options = (data.setNums[i][0] % 2 == 0) ? [data.selectedWorkout.coreBiceps, data.selectedWorkout.superBiceps] : [data.selectedWorkout.coreTriceps, data.selectedWorkout.superTriceps]%>
               <% let workout = (data.setNums[i][1] == 'a') ? options[0] : options[1] %>
               <% for(let j = 0; j < workout.length; j++){ %>
@@ -58,11 +59,13 @@
           </select>
         </td>
         <td>Coming Soon...</td>
-        <td><Input type="text"></Input></td>
+        <td><Input id="weight" name="weight" type="text"></Input></td>
     </tr>
   <% } %>
   <% } %>
 </table>
+<button>Submit Workout Data</button>
+</form>
 <% } else { %>
   <h2 class="question">What are we doing today?</h2>
   <form action="/workout" method="POST">

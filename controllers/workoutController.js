@@ -9,7 +9,6 @@ module.exports.workoutdata = (workout, sets, superset) => {
         "https://www.youtube.com/embed/MNL_DAI19_I",
         "https://www.youtube.com/embed/zeWg73GzVbc",
         "https://www.youtube.com/embed/fybi42dJHD4",
-        "https://www.youtube.com/embed/36OSS_kv2zg",
         "https://www.youtube.com/embed/KHrtXxjoOrI",
         "https://www.youtube.com/embed/sFtgjAUe7P4",
         "https://www.youtube.com/embed/fz9fsvhx4PY",
